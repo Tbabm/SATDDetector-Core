@@ -6,9 +6,6 @@ import java.util.regex.Pattern;
 import satd_detector.core.models.Dataset;
 import satd_detector.core.models.Document;
 import satd_detector.core.models.Models;
-
-//import org.eclipse.jdt.core.dom.Comment;
-
 import weka.core.DenseInstance;
 import weka.core.Instance;
 import weka.filters.supervised.attribute.AttributeSelection;
@@ -17,42 +14,6 @@ import weka.filters.unsupervised.attribute.StringToWordVector;
 public class SATDFilter {
 	private static Models models;
 	private static Dataset ds;
-
-//	public static boolean isSATD(String source, Comment comment) {
-//		int start = comment.getStartPosition();
-//		int end = start + comment.getLength();
-//		String message = source.substring(start, end);
-//
-//		if (containsNSATDTag(message))
-//			return false;
-//		if (containsSATDTag(message))
-//			return true;
-//		if (!isPossible(comment, message))
-//			return false;
-//		// identify specifial tags
-//		if (containsSATDPatterns(message))
-//			return true;
-//
-//		Document doc = new Document(message);
-//		if (doc.getWords().isEmpty())
-//			return false;
-//
-//		Instance ins = createInstance(doc);
-//		int score = 0;
-//
-//		try {
-//			score = getScore(ins);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//
-//		if (score > 0) {
-//			return true;
-//		} else {
-//			return false;
-//		}
-//
-//	}
 
 	public static boolean isSATD(String source) {
 		// identify specifial tags
@@ -131,20 +92,6 @@ public class SATDFilter {
 		return true;
 	}
 
-//	public static boolean isPossible(Comment comment, String source) {
-//		// ignore useless javadoc
-//		if (isJavadoc(comment, source))
-//			return false;
-//		// ignore auto generated comments
-//		if (isAutoComment(source))
-//			return false;
-//		// ignore License comments
-//		if (isLicenseComment(source))
-//			return false;
-//
-//		return true;
-//	}
-
 	public static boolean isJavadoc(String source) {
 		String[] tags = { "todo", "fixme", "xxx" };
 		source = source.toLowerCase();
@@ -158,20 +105,6 @@ public class SATDFilter {
 
 		return false;
 	}
-
-//	public static boolean isJavadoc(Comment comment, String source) {
-//		String[] tags = { "todo", "fixme", "xxx" };
-//		source = source.toLowerCase();
-//		for (String tag : tags) {
-//			if (source.contains(tag))
-//				return false;
-//		}
-//
-//		if (comment.isDocComment())
-//			return true;
-//
-//		return false;
-//	}
 
 	public static boolean isDocComment(String source) {
 		source = source.trim();

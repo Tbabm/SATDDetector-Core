@@ -9,8 +9,8 @@ public class Test {
 		SATDFilter.setModels(new Models());
 		SATDFilter.setDs(new Dataset());
 
-//		String comment = "TODO need a global config";
-		String comment = args[1];
+		String comment = "TODO need a global config";
+		// String comment = args[1];
 		if (SATDFilter.isSATD(comment))
 			System.out.println("SATD");
 		else

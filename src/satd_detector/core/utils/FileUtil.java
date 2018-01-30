@@ -12,39 +12,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-//import weka.core.PropertyPath.Path;
-
-//import org.eclipse.core.runtime.FileLocator;
-//import org.eclipse.core.runtime.Path;
-//import org.osgi.framework.Bundle;
-
 public class FileUtil {
-//	public static List<String> readLinesFromFile(Bundle bundle, String path) {
-//		List<String> lines = new ArrayList<String>();
-//		BufferedReader reader = null;
-//
-//		try {
-//			InputStream inputStream = FileLocator.openStream(bundle, new Path(path), false);
-//			reader = new BufferedReader(new InputStreamReader(inputStream));
-//			String line = null;
-//			while ((line = reader.readLine()) != null) {
-//				lines.add(line);
-//			}
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		} finally {
-//			if (reader != null) {
-//				try {
-//					reader.close();
-//				} catch (IOException e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		}
-//
-//		return lines;
-//	}
-
 	public static List<String> readLinesFromFile(InputStream is) {
 		BufferedReader reader = null;
 		List<String> lines = new ArrayList<String>();

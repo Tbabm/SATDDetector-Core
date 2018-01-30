@@ -5,13 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import satd_detector.core.utils.FileUtil;
-
-//import org.eclipse.core.runtime.FileLocator;
-//import org.eclipse.core.runtime.Path;
-//import org.osgi.framework.Bundle;
-
 import weka.classifiers.Classifier;
-//import weka.core.PropertyPath.Path;
 import weka.core.SerializationHelper;
 import weka.filters.supervised.attribute.AttributeSelection;
 import weka.filters.unsupervised.attribute.StringToWordVector;
@@ -25,7 +19,7 @@ public class Models {
 	List<String> SATDPatterns = null;
 
 	public Models() {
-		InputStream pattern_io = getClass().getResourceAsStream("/models/SATDPatterns.re");
+		InputStream pattern_io = getClass().getResourceAsStream("/patterns/SATDPatterns.re");
 		SATDPatterns = FileUtil.readLinesFromFile(pattern_io);
 
 		for (String pro : projects) {
@@ -44,27 +38,6 @@ public class Models {
 			}
 		}
 	}
-
-//	public Models(Bundle bundle) {
-//		// load Emad's patterns
-//		SATDPatterns = FileUtil.readLinesFromFile(bundle, "models/SATDPatterns.re");
-//
-//		for (String pro : projects) {
-//			try {
-//				InputStream cls_io = FileLocator.openStream(bundle, new Path("models/" + pro + ".model"), false);
-//				InputStream stw_io = FileLocator.openStream(bundle, new Path("models/" + pro + ".stw"), false);
-//				InputStream as_io = FileLocator.openStream(bundle, new Path("models/" + pro + ".as"), false);
-//				Classifier cls = (Classifier) SerializationHelper.read(cls_io);
-//				StringToWordVector stw = (StringToWordVector) SerializationHelper.read(stw_io);
-//				AttributeSelection as = (AttributeSelection) SerializationHelper.read(as_io);
-//				classes.add(cls);
-//				stws.add(stw);
-//				attSels.add(as);
-//			} catch (Exception e) {
-//				e.printStackTrace();
-//			}
-//		}
-//	}
 
 	public static String[] getProjects() {
 		return projects;
