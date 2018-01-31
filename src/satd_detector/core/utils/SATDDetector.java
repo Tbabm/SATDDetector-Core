@@ -1,5 +1,6 @@
 package satd_detector.core.utils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -11,11 +12,21 @@ import weka.core.Instance;
 import weka.filters.supervised.attribute.AttributeSelection;
 import weka.filters.unsupervised.attribute.StringToWordVector;
 
-public class SATDFilter {
-	private static Models models;
-	private static Dataset ds;
+public class SATDDetector {
+	private Models models;
+	private Dataset ds;
 
-	public static boolean isSATD(String source) {
+	public SATDDetector() {
+		models = new Models();
+		ds = new Dataset();
+	}
+
+	public SATDDetector(String modelDir) {
+		models = new Models(modelDir);
+		ds = new Dataset();
+	}
+
+	public boolean isSATD(String source) {
 		// identify specifial tags
 		if (containsNSATDTag(source))
 			return false;
@@ -26,6 +37,10 @@ public class SATDFilter {
 		if (containsSATDPatterns(source))
 			return true;
 
+		return compositeClassifier(source);
+	}
+
+	private boolean compositeClassifier(String source) {
 		Document doc = new Document(source);
 		if (doc.getWords().isEmpty())
 			return false;
@@ -39,15 +54,14 @@ public class SATDFilter {
 			e.printStackTrace();
 		}
 
-		if (score > 0) {
+		if (score >= 0) {
 			return true;
 		} else {
 			return false;
 		}
-
 	}
 
-	private static Instance createInstance(Document doc) {
+	private Instance createInstance(Document doc) {
 		Instance ins = new DenseInstance(2);
 		ins.setDataset(ds.getDataset());
 		ins.setValue(0, String.join(" ", doc.getWords()));
@@ -55,10 +69,10 @@ public class SATDFilter {
 		return ins;
 	}
 
-	private static int getScore(Instance ins) throws Exception {
+	private int getScore(Instance ins) throws Exception {
 		int score = 0;
-
-		for (int i = 0; i < Models.getProjects().length; i++) {
+		List<String> projects = new ArrayList<String>(models.getProjects());
+		for (int i = 0; i < projects.size(); i++) {
 			// Models models = Activator.getModels();
 			Instance tmp = ins;
 			StringToWordVector stw = models.getStw(i);
@@ -68,7 +82,10 @@ public class SATDFilter {
 			as.input(tmp);
 			tmp = as.output();
 			
-			if (models.getClass(i).classifyInstance(tmp) == 1.0) {
+			double cls_score = models.getClass(i).classifyInstance(tmp);
+			// System.out.println(projects.get(i));
+			// System.out.println("Score " + cls_score);
+			if (cls_score == 1.0) {
 				score += 1;
 			} else {
 				score += -1;
@@ -149,7 +166,7 @@ public class SATDFilter {
 		return false;
 	}
 
-	public static boolean containsSATDPatterns(String source) {
+	public boolean containsSATDPatterns(String source) {
 		String pattern = ".*(TODO|FIXME|XXX).*";
 		if (Pattern.matches(pattern, source))
 			return true;
@@ -163,19 +180,19 @@ public class SATDFilter {
 		return false;
 	}
 
-	public static Dataset getDs() {
+	public Dataset getDs() {
 		return ds;
 	}
 
-	public static void setDs(Dataset ds) {
-		SATDFilter.ds = ds;
+	public void setDs(Dataset ds) {
+		this.ds = ds;
 	}
 
-	public static Models getModels() {
+	public Models getModels() {
 		return models;
 	}
 
-	public static void setModels(Models models) {
-		SATDFilter.models = models;
+	public void setModels(Models models) {
+		this.models = models;
 	}
 }

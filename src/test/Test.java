@@ -1,19 +1,73 @@
 package test;
 
-import satd_detector.core.models.Dataset;
-import satd_detector.core.models.Models;
-import satd_detector.core.utils.SATDFilter;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.DefaultParser;
+import org.apache.commons.cli.HelpFormatter;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
+
+import satd_detector.core.utils.SATDDetector;
 
 public class Test {
-	public static void main(String[] args) {
-		SATDFilter.setModels(new Models());
-		SATDFilter.setDs(new Dataset());
+	private static String prompt = ">";
 
-		String comment = "TODO need a global config";
-		// String comment = args[1];
-		if (SATDFilter.isSATD(comment))
-			System.out.println("SATD");
-		else
-			System.out.println("Not SATD");
+	public static void main(String[] args) {
+		test(args);
+	}
+
+	public static void test(String[] args) {
+		Options opts = createOptions();
+		CommandLineParser parser = new DefaultParser();
+		 HelpFormatter formatter = new HelpFormatter();
+		CommandLine cl = null;
+		String modelDir = null;
+		try {
+			cl = parser.parse(opts, args);
+			modelDir = cl.getOptionValue("model_dir");
+		} catch (ParseException e) {
+			e.printStackTrace();
+			return;
+		}
+		modelDir = cl.getOptionValue("model_dir");
+		if (modelDir != null) {
+			File modelFile = new File(modelDir);
+			if (!modelFile.isDirectory()) {
+				formatter.printHelp("test", opts);
+			}
+		}
+
+		SATDDetector detector = new SATDDetector(modelDir);
+		InputStreamReader isr = new InputStreamReader(System.in);
+		BufferedReader br = new BufferedReader(isr);
+		while (true) {
+			try {
+				System.out.print(prompt);
+				String comment = br.readLine();
+				if (comment.equals("/exit")) {
+					System.out.println("bye!");
+					break;
+				}
+				if (detector.isSATD(comment))
+					System.out.println("SATD");
+				else
+					System.out.println("Not SATD");
+				// System.out.println(comment);
+			} catch (IOException e) {
+				e.printStackTrace();
+				break;
+			}
+		}
+	}
+
+	private static Options createOptions() {
+		Options opts = new Options();
+		opts.addOption("model_dir", true, "Dir which stores all the models");
+		return opts;
 	}
 }
