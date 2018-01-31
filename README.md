@@ -3,7 +3,8 @@
 SATD refers to self-admitted technical debt, which is introduced intentionally (e.g., through temporary fix) and admitted by developers themselves and always recorded in source code comments. SATD Detector[1] is a tool that is able to automatically detect SATD comments text mining. This is the back-end of SATD Detector, which provides command-line interface and Java API of SATD Detector. More details can be found in [1].
 
 ## Play with pre-build binaries
-Download binaries: 
+Download binaries: [satd_detector.jar](https://github.com/Tbabm/SATDDetector-Core/releases/tag/v0.1)
+
 
 ### Test and play
 Use build-in models to test whether a comment is SATD comment or not:
