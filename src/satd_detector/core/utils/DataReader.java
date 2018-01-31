@@ -1,6 +1,7 @@
 package satd_detector.core.utils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -9,9 +10,13 @@ import satd_detector.core.models.Document;
 
 public class DataReader {
 
+	private static String[] negLabels = { "without_classification", "no", "nsatd" };
+
 	public static void outputArffData(List<Document> comments, String outputFilePath) {
 		// notice: here we assume positive class is SATD
 
+		Set<String> negSignals = new HashSet<String>(Arrays.asList(negLabels));
+		
 		// arff declare info
 		List<String> lines = new ArrayList<String>();
 		lines.add("@relation 'technicalDebt'");
@@ -21,18 +26,16 @@ public class DataReader {
 		lines.add("");
 		lines.add("@data");
 		lines.add("");
-
+		
 		for (Document doc : comments) {
-
 			String tmp = "'";
 			for (String word : doc.getWords())
 				tmp = tmp + word + " ";
-			if (doc.getLabel().equals("WITHOUT_CLASSIFICATION")) {
+			String label = doc.getLabel().toLowerCase();
+			if (negSignals.contains(label)) {
 				tmp = tmp + "',negative";// negative comments
-
 			} else {
 				tmp = tmp + "',positive";
-
 			}
 			lines.add(tmp);
 		}
@@ -74,7 +77,6 @@ public class DataReader {
 					}
 				}
 				comments.add(new Document(tmp));
-
 			}
 
 		}

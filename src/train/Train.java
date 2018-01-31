@@ -59,6 +59,10 @@ public class Train {
 			formatter.printHelp("train", opts);
 			return;
 		}
+		if (cl.hasOption("h")) {
+			formatter.printHelp("train", opts);
+			return;
+		}
 		commentFile = cl.getOptionValue("comments");
 		labelFile = cl.getOptionValue("labels");
 		projectFile = cl.getOptionValue("projects");
@@ -89,6 +93,7 @@ public class Train {
 
 	private static Options createOptions() {
 		Options opts = new Options();
+		opts.addOption("h", false, "Show help messages.");
 		opts.addOption("comments", true, "The file which stores all comments.");
 		opts.addOption("labels", true, "The file which stores labels of all comments.");
 		opts.addOption("projects", true, "The file which stores projects of all comments.");

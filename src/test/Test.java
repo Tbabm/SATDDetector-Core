@@ -31,7 +31,13 @@ public class Test {
 			cl = parser.parse(opts, args);
 			modelDir = cl.getOptionValue("model_dir");
 		} catch (ParseException e) {
-			e.printStackTrace();
+			// e.printStackTrace();
+			formatter.printHelp("test", opts);
+			return;
+		}
+
+		if (cl.hasOption("h")) {
+			formatter.printHelp("test", opts);
 			return;
 		}
 		modelDir = cl.getOptionValue("model_dir");
@@ -67,7 +73,9 @@ public class Test {
 
 	private static Options createOptions() {
 		Options opts = new Options();
-		opts.addOption("model_dir", true, "Dir which stores all the models");
+		opts.addOption("h", false, "Show help message");
+		opts.addOption("model_dir", true,
+				"Dir which stores all the models. Using build-in models if not specified.");
 		return opts;
 	}
 }
