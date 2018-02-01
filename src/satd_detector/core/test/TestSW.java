@@ -1,4 +1,4 @@
-package test;
+package satd_detector.core.test;
 
 import satd_detector.core.models.SATDStopwordsHandler;
 import weka.core.stopwords.StopwordsHandler;
@@ -14,4 +14,5 @@ public class TestSW {
 			}
 		}
 	}
+
 }

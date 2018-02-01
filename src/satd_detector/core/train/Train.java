@@ -1,4 +1,4 @@
-package train;
+package satd_detector.core.train;
 
 import java.io.File;
 import java.nio.file.Paths;
@@ -74,12 +74,6 @@ public class Train {
 		if (outDir == null)
 			outDir = "./models/";
 
-		// create output dir
-		File outDirFile = new File(outDir);
-		if (!outDirFile.isDirectory()) {
-			outDirFile.mkdir();
-		}
-
 		try {
 			buildModels(commentFile, labelFile, projectFile, outDir);
 		} catch (Exception e) {
@@ -101,8 +95,26 @@ public class Train {
 		return opts;
 	}
 
-	private static void buildModels(String commentFile, String labelFile, String projectFile, String outDir)
+	/***
+	 * 
+	 * @param commentFile:
+	 *            String, path of comment file
+	 * @param labelFile:
+	 *            String, path of label file
+	 * @param projectFile:
+	 *            String, path of project file
+	 * @param outDir:
+	 *            String, directory to store trained models
+	 * @throws Exception
+	 */
+	public static void buildModels(String commentFile, String labelFile, String projectFile, String outDir)
 			throws Exception {
+		// create output dir
+		File outDirFile = new File(outDir);
+		if (!outDirFile.isDirectory()) {
+			outDirFile.mkdir();
+		}
+
 		List<String> projects = parseProjects(projectFile);
 		List<Document> comments = DataReader.readComments(commentFile, labelFile, projectFile);
 		for (String pro:projects) {

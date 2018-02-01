@@ -2,8 +2,8 @@ package main;
 
 import java.util.Arrays;
 
-import test.Test;
-import train.Train;
+import satd_detector.core.test.Test;
+import satd_detector.core.train.Train;
 
 public class Main {
 	public static void main(String[] args) {

@@ -94,6 +94,22 @@ Your can also use SATD Detector in your Java projects.
 - Add it to the classpath
 
 ```Java
+import satd_detector.core.train.Train;
+
+String commentFile = "./comments.txt";
+String labelsFile = "./labelss.txt";
+String projectsFile = "./projects.txt";
+String outDir = "./models/";
+
+// train your own models
+try{
+    Train.buildModels(commentFile, labelFile, projectFile, outDir);
+} catch (Exception e) {
+    e.printStackTrace();
+}
+```
+
+```Java
 import satd_detector.core.utils.SATDDetector;
 
 // create an instance using build-in models
