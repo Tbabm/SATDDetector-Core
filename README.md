@@ -97,7 +97,7 @@ Your can also use SATD Detector in your Java projects.
 import satd_detector.core.train.Train;
 
 String commentFile = "./comments.txt";
-String labelsFile = "./labelss.txt";
+String labelsFile = "./labels.txt";
 String projectsFile = "./projects.txt";
 String outDir = "./models/";
 
